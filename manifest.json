@@ -1,3 +1,11 @@
 {
-    "version": "1.0"
+    "version": "1.0",
+    "app_versions": [
+        {
+            "version": "2.0.0",
+            "config_script": "",
+            "fixture": "",
+            "tasks": ""
+        }
+    ]
 }
