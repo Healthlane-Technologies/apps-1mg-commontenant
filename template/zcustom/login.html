@@ -1,0 +1,102 @@
+{% load i18n %}
+{% load static from staticfiles %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/onemg/css/bootstrap.min.css' %}" >
+        <link rel="stylesheet" type="text/css" href="{% static 'accounts/onemg/css/style.css' %}">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+	<title>{{config.title}}</title>
+</head>
+<body>
+
+<div class="wrapper d-flex">
+	<div class="container-fluid p-0"> {% include "login/_message_block.html" %}
+		{% if messages %}
+        <div class="display-message" style='text-align: center;'>
+            <ul style='list-style: none;'>
+                {% for message in messages %}
+                    <li><span style="background:black; padding:6px; border-radius:4px; color:white;">{{ message }}</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+  {% endif %}
+		<div class="row m-0 content-row">
+			<div class="col-12 col-md-5 left-inner-wrapper d-flex justify-content-center align-items-center">
+
+				<div class="form-sec">
+					<div>
+						 <a href="#"><img class="logo" src="{% static 'accounts/onemg/images/mediangels.svg' %}" alt="#" /></a> 
+					</div>
+					<h1>MediAngels CRM</h1>
+					<form class="form" action="" method="post"> 
+						{% csrf_token %}
+						{{ wizard.management_form }}
+						{% include "login/_login_form_block.html" %}
+						<div class="form-group form-group-half forgot-pass">
+							<a href="{% url 'forgotpassword' %}">Forgot password</a>
+						</div>
+                                               
+{% if wizard.steps.current == 'token' %}
+    <div class="md-card cta">    
+        <a href="{% url 'reset-mfa' 'generate_request' wizard.form.token %}">{% trans "Reset Token" %}</a>
+    </div>
+    {% endif %}
+						<div class="form-group form-group-half remember">
+	<!-- 						<label>
+								<input type="checkbox" name="check" />
+								<span></span>
+								<p>Remember me</p>
+							</label> -->
+						</div>
+					
+					</form>
+				</div>
+			</div>
+			<div class="col-12 col-md-7 right-inner-wrapper">
+                        </div>
+		</div>
+		<div class="row m-0 footer">
+			<div class="col-12 col-md-6 footer-links">
+                                <p>By using this account and CRM, you agree to the CRM tools usage only for the purpose as you were trained by the MediAngels team. Any other use of this may lead to account suspension.</p>
+				<!-- <h5>1mg</h5>
+				<h6>Management Ltd.</h6> -->
+				<ul>
+					<!--<li>
+						<a href="#">Privacy Protection Policy</a>
+					</li>
+					<li>
+						<a href="#">Terms of Use</a>
+					</li>-->
+				</ul>
+			</div>
+			<div class="col-12 col-md-6 contact-footer">
+				<h6>Contact us</h6>
+				<ul>
+					<li>
+						<a href="mailto:access@mediangels.com">access@mediangels.com</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+
+<script type="text/javascript" src="{% static 'accounts/onemg/js/bootstrap.min.js' %}"></script>
+<script>
+   document.getElementById("id_token-otp_token").style.width = "70%"
+   var step = "{{wizard.steps.current}}"
+   if (step == "token"){
+      $(".forgot-pass").css("display", "none");
+
+}
+</script>
+</body>
+</html>
